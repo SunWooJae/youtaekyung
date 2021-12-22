@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
+*{
+    margin:0;
+    padding:0;
+}
+#title{
+    position: relative;
+    font-size: 100px;
+    top: 200px;
+    text-align: center;
+    font-family: 'Mountains of Christmas', cursive;
+    color: black;
+    font-family: 'Nanum Pen Script', cursive;
+}
+#main{
+    background:#fff;
+	border:1px solid #222;
+	border-radius: 5px;
+	padding: 40px;
+	width: 1000px;	
+    margin:280px auto;
+    
+    text-align: center;
+    font-size:30px;
+    font-family: 'Nanum Pen Script', cursive;
+}
+#next{
+    position: absolute;
+    bottom:auto;
+    left: 1px;
+}

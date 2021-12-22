@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>정보통신대대 안의 미로</title>
+<script>
+    var map=[
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,0,0,0,0,1,1,0,2],
+        [1,0,1,1,1,1,1,1,1,1,0,0,1,0,1],
+        [1,0,1,0,0,0,0,0,0,1,1,0,1,0,1],
+        [1,0,1,0,1,1,1,1,0,1,0,0,1,0,1],
+        [1,0,1,0,1,1,0,0,0,1,0,1,1,0,1],
+        [1,0,1,0,1,0,0,1,0,1,0,0,1,0,1],
+        [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+        [1,0,0,0,1,0,0,0,1,0,0,0,1,0,1],
+        [1,1,1,1,1,0,1,0,1,1,0,1,1,0,1],
+        [1,0,0,0,1,0,1,0,1,1,0,0,1,0,1],
+        [1,0,1,0,1,0,1,0,0,1,1,0,1,0,1],
+        [1,0,1,0,1,1,1,1,0,1,1,0,1,0,1],
+        [1,3,1,0,0,0,0,0,0,1,0,0,0,0,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    ];
+    end=false;  //성공했는지 여부
+    
+
+    function Board(){
+        for(var i=0; i<15; i++){
+            document.write("<table bgcolor='white' border='1'><tr>");
+                for(var j=0; j<15; j++){
+                    +document.write("<td id=x"+i+"y"+j+" width='15' height='15'></td>");
+                }    
+                document.write("</tr></table>");
+        }
+    }
+    
+    Board();
+    
+
+
+    function ChangeColor(x,y,color){
+        document.getElementById("x"+x+"y"+y+"").bgColor=color;
+    }
+    
+    function drawmaze(){
+        for(var i=0; i<15; i++){
+            for(var j=0; j<15; j++){
+                if(map[i][j]==1){
+                    ChangeColor(i,j,"#980000"); //벽돌
+                }
+                else if(map[i][j]==2){
+                    ChangeColor(i,j,"#FFFF48"); //출구
+                }
+                else if(map[i][j]==3){                    
+                    ChangeColor(i,j,"#90E4FF");
+                    document.getElementById("x"+i+"y"+j).innerHTML="<img src='img/run_right.gif' width='30' height='25'>"
+                }
+                else if(map[i][j]==4){                    
+                    ChangeColor(i,j,"#90E4FF");
+                    document.getElementById("x"+i+"y"+j).innerHTML="<img src='img/run_left.gif' width='30' height='25'>"
+                }
+                else if(map[i][j]==0){
+                    ChangeColor(i,j,"white");
+                    document.getElementById("x"+i+"y"+j).innerHTML="<img src=''>"
+                }
+            }
+        }
+    }
+    function erase(){
+        for(var i=0; i<15; i++){
+            for(var j=0; j<15; j++){
+                ChangeColor(i,j,"white");
+            }
+        }
+    }
+    
+    drawmaze();    
+    
+    var nowX=13;
+    var nowY=1;
+    
+    function inputFunction(input){        
+        switch(input){
+            case 87://up (w) shift 누르고 해야 함
+                map[nowX][nowY]=0;
+                nowX--;            
+                if(map[nowX][nowY]==1){
+                    nowX++;
+                }
+                map[nowX][nowY]=3;
+                break;
+            case 68://right (d)
+                map[nowX][nowY]=0
+                nowY++;
+                if(map[nowX][nowY]==1){
+                    nowY--;
+                }
+                else if(map[nowX][nowY]==2){
+                    alert("축하합니다! 클리어하셨습니다. 다음 스테이지로 이동합니다.")
+                    end=true;
+                    location.href = "fall.html";
+
+                }
+                map[nowX][nowY]=3;
+            break;
+            case 65://left (a)
+                map[nowX][nowY]=0;
+                nowY--;
+
+                if(map[nowX][nowY]==1){
+                    nowY++;
+                }
+                map[nowX][nowY]=4;
+            break;
+            case 83://down (s)
+                map[nowX][nowY]=0;
+                nowX++;
+                if(map[nowX][nowY]==1){
+                    nowX--;
+                }
+                map[nowX][nowY]=3;
+            break;
+        }
+        erase();
+        drawmaze();
+    
+        
+    };
+    /*
+    var x=setInterval(function(){
+        time=5;
+        document.getElementById("demo").innerHTML = time+"초";
+        time--;
+
+        if(time<0){
+            clearInterval(x);
+            document.getElementById("demo").innerHTML="시간초과";
+        }
+    },1000);
+    */
+    var SetTime = 17;		// 최초 설정 시간(기본 : 초)
+
+		function msg_time() {	// 1초씩 카운트
+			
+			m = Math.floor(SetTime / 60) + "분 " + (SetTime % 60) + "초";	// 남은 시간 계산
+			
+			var msg = "현재 남은 시간은 <font color='red'>" + m + "</font> 입니다.";
+			
+			document.all.ViewTimer.innerHTML = msg;		// div 영역에 보여줌 
+					
+			SetTime--;					// 1초씩 감소
+			
+			if (SetTime < 0&&end==false) {			// 시간이 종료 되었으면..
+				
+				clearInterval(tid);		// 타이머 해제
+				alert("종료");
+                location.reload(true);
+                location.href = "miro2.html";
+                history.go(0);
+
+			}
+			
+		}
+
+		window.onload = function TimerStart(){ tid=setInterval('msg_time()',1000) };
+
+
+</script>
+<style>
+   table{
+       margin: auto;
+       border-collapse: collapse;
+       border: 1px solid black;
+   }
+   td{
+       border: 1px solid black;
+       width: 30px;
+       height: 30px;
+       text-align:center;
+       vertical-align:middle;
+   }
+</style>
+</head>
+<body onkeypress="inputFunction(event.keyCode);">
+    <div id="ViewTimer"></div>
+    <h1>2021년의 미로</h1>
+    <p>
+        2021년의 미로에 갇힌 태경. 미로를 탈출해야 2021년에서 탈출할 수 있다..<br>
+        shift+ w, a, s, d로 움직임. 제한시간 내에 탈출하면 된다.<br>
+        난이도 : 하
+    </p>
+    <audio src="media/last.mp3" autoplay loop></audio>
+</body>
+</html>

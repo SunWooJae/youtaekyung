@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>quiz</title>
+    <link rel="stylesheet" href="quiz.css">
+</head>
+<body>
+    <div id="quiz">
+        <p>내가 생각하고 있는 단어는?(제한된 수의 힌트 존재)<br>힌트 1: 너</p>
+        <label for="word">단어 :</label>
+            <input id="word_" name="word" type="text" placeholder="_ _ _  _ _ _  _ _" required>
+        <div>
+            <button type="reset" id="submit"> 확인 </button> 
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+        var count=0;
+        document.getElementById('submit').onclick = function(){
+            //var count=0;
+            var word = document.getElementById('word_').value;
+            if(word=="유태경 정수리 냄새"){
+                alert("퀴즈 성공!");
+                location.href = "letter.html";
+                //return false;
+            }
+            else{
+                count++;
+                alert("로그인 실패!");
+            }
+            if(count==1){alert("힌트2 : 유태경")};
+            if(count==2){alert("힌트3 : 내가 좋아하는 것")};
+            if(count==3){alert("힌트4 : 신체")};
+            if(count==4){alert("힌트5(마지막 힌트) : 향")};
+            if(count>=5){
+                alert("더 이상의 힌트는 없어요~");
+                count =-100; //count 초기화
+            }
+        }
+    </script>
+    <audio src="media/flo.mp3" autoplay loop></audio>
+</body>
+
+</html>
